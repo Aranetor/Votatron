@@ -1,5 +1,5 @@
 Poll :
-{id:ID,name:Nom,poller:userID,options:{opt1:nbvote,opt2:nbvote...},voters:[]}
+{id:ID,name:Nom,poller:userID,options:[opt1,opt2..],votes:[0,1...]voters:[]}
 
 User :
 {username:Name,password:hashPassword}

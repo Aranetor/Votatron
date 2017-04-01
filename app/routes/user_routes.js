@@ -3,7 +3,7 @@ const bcrypt        = require("bcrypt");
 //bcrypt.compareSync(myPlaintextPassword, hash)
 
 module.exports = function(app, db) {
-  app.get('/user', (req, res) => {
+  app.get('/api/user', (req, res) => {
     //find all polls
     db.collection('users').find().toArray((err, result) => {
       if (err) {
@@ -17,7 +17,7 @@ module.exports = function(app, db) {
     res.send('Hello')
   });
 
-  app.post('/user', (req, res) => {
+  app.post('/api/user', (req, res) => {
     const hashPwd = bcrypt.hashSync(req.body.password, 10);
     const user = {username:req.body.username,hash:hashPwd};
 

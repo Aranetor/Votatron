@@ -9,6 +9,7 @@ const app           = express();
 
 const port          = 3000;
 
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -17,7 +18,7 @@ MongoClient.connect(mongoUrl, (err, database) => {
   require('./app/routes')(app, database);
 
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', '404.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });
 
   app.listen(process.env.PORT || port, () => {
