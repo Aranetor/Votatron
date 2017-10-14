@@ -1,9 +1,31 @@
 var {ObjectId} = require('mongodb');
+const jwt           = require("jsonwebtoken");
+const jwtSecret      = process.env.SECRET;
 
 module.exports = function(app, db) {
   app.get('/api/polls', (req, res) => {
     //find all polls
     db.collection('polls').find().sort({_id:-1}).toArray((err, result) => {
+      if (err) {
+        res.send({'error': 'Cannot find polls'});
+      } else {
+        res.send(result);
+      }
+    });
+  });
+
+  app.get('/api/mypolls', (req, res) => {
+
+    var token = req.headers['x-access-token'];
+
+    try {
+      var user = jwt.verify(token, jwtSecret).username;
+    } catch(err) {
+      res.send({'error': 'Authentication expired'});
+      return;
+    }
+
+    db.collection('polls').find({poller:user}).sort({_id:-1}).toArray((err, result) => {
       if (err) {
         res.send({'error': 'Cannot find polls'});
       } else {

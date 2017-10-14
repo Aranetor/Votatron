@@ -6,6 +6,7 @@ import Page from './page.jsx';
 import {PollList, PollResult} from './polls.jsx';
 import SignUp from './sign.jsx';
 import LogIn from './log.jsx';
+import MyPolls from './mypolls.jsx';
 
 /*class Page404 extends React.Component {
   render() {
@@ -48,6 +49,15 @@ const PollPage = ({ match }) => (
   }/>
 )
 
+const MyPollsPage = () => (
+  <Page isLogged={isLogged} user={user} content={
+    <div className="text-center">
+      <p>Below are all your polls.</p>
+      <MyPolls/>
+    </div>
+  }/>
+)
+
 ReactDOM.render(
   <BrowserRouter>
     <div>
@@ -55,6 +65,7 @@ ReactDOM.render(
       <Route path="/poll/:id" component={PollPage}/>
       <Route path="/login" component={LogPage}/>
       <Route path="/signin" component={SignPage}/>
+      <Route path="/mypolls" component={MyPollsPage}/>
     </div>
   </BrowserRouter>,
   document.getElementById('app')
