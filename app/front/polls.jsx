@@ -39,9 +39,8 @@ export class PollResult extends React.Component {
       name:"",
       poller:"",
       options:[],
-      votes:[],
       voters:[],
-      selectedVote:0
+      selectedVote:""
     };
     this.sendVote = this.sendVote.bind(this);
     this.selectVote = this.selectVote.bind(this);
@@ -56,8 +55,8 @@ export class PollResult extends React.Component {
           name:result.name,
           poller:result.poller,
           options:result.options,
-          votes:result.votes,
-          voters:result.voters
+          voters:result.voters,
+          selectedVote:Object.keys(result.options)[0]
         });
       });
   }
@@ -68,16 +67,22 @@ export class PollResult extends React.Component {
 
   sendVote(event) {
     event.preventDefault();
+    var _this=this;
     this.serverRequest = axios.put('/api/polls/'+this.props.id+'/vote', { vote:this.state.selectedVote })
-    .then(function (response) {
-
+    .then(function (res) {
+      console.log(res);
+      if(res.data.error) {
+        alert('Cannot vote :' + res.data.error);
+      } else {
+        _this.setState({ options: res.data.value.options });
+      }
     });
   }
 
   render () {
     return (
       <Poll id={this.state.id} name={this.state.name} poller={this.state.poller}
-         options={this.state.options} votes={this.state.votes} voters={this.state.voters} onSubmit={this.sendVote} onChange={this.selectVote}/>
+         options={this.state.options} voters={this.state.voters} onSubmit={this.sendVote} onChange={this.selectVote}/>
     )
   }
 }

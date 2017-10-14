@@ -3,6 +3,7 @@ const MongoClient   = require('mongodb').MongoClient;
 const bodyParser    = require('body-parser');
 const dotenv        = require("dotenv").config();
 const path          = require("path");
+const jwt           = require("jsonwebtoken");
 const mongoUrl      = process.env.MONGO_URL;
 
 const app           = express();

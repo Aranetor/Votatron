@@ -36,13 +36,20 @@ module.exports = function(app, db) {
   });
 
   app.put('/api/polls/:id/vote', (req, res) => {
-    console.log(req.body.vote);
+    var key="options."+req.body.vote;
+    var query={};
+    query[key] = 1;
 
-    db.collection('polls').update({_id:ObjectId(req.params.id)}, {$inc: {votes[req.body.vote]:1}}, (err, result) => {
+    var voteError={'error':'Error in voting'};
+    var voterError={'error':'You already voted for this poll '};
+
+    var ip=req.ip.split(":")[3];
+
+    db.collection('polls').findOneAndUpdate({_id:ObjectId(req.params.id)}, {$inc: query}, {returnOriginal:false}, (err, doc) => {
       if(err) {
         res.send({'error': 'Error in voting'});
       } else {
-        res.send(result);
+        res.send(doc);
       }
     });
   });

@@ -19,11 +19,18 @@ const PollListItem = ({id, name}) => (
 );
 
 
-const Poll = ({id, name, options, poller, votes, voters, onSubmit, onChange}) => {
+const Poll = ({id, name, options, poller, voters, onSubmit, onChange}) => {
+  var optionsLabels = Object.keys(options);
+  var optionsVotes = [];
+
+  for (var i in options) {
+    optionsVotes.push(options[i]);
+  }
+
   const chartData = {
-    labels: options,
+    labels: optionsLabels,
     datasets: [{
-      data: votes,
+      data: optionsVotes,
       backgroundColor: [
         'blue',
         'red',
@@ -46,8 +53,8 @@ const Poll = ({id, name, options, poller, votes, voters, onSubmit, onChange}) =>
                 <div className="form-group">
                   <label>I'd like to vote for :</label>
                   <select className="form-control" onChange={onChange}>
-                    {options.map((option, i) =>
-                      <option value={i} key={i}>{option}</option>
+                    {optionsLabels.map((option, i) =>
+                      <option value={option} key={i}>{option}</option>
                     )}
                   </select>
                 </div>

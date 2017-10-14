@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route} from 'react-router-dom';
 
-import Page from './components/page.jsx';
+import Page from './page.jsx';
 import {PollList, PollResult} from './polls.jsx';
+import SignUp from './sign.jsx';
+import LogIn from './log.jsx';
 
 /*class Page404 extends React.Component {
   render() {
@@ -11,8 +13,15 @@ import {PollList, PollResult} from './polls.jsx';
   }
 }*/
 
+var isLogged = false;
+const user = localStorage.getItem('user');
+const token = localStorage.getItem('token');
+if (token) {
+    isLogged = true;
+}
+
 const HomePage = () => (
-  <Page content={
+  <Page isLogged={isLogged} user={user} content={
     <div className="text-center">
       <h1>Vot-a-tron</h1>
       <p>Below are all polls. Click to see details of a poll, or log in to create a new poll.</p>
@@ -22,11 +31,15 @@ const HomePage = () => (
 )
 
 const LogPage = () => (
-  <Page content="LOG IN"/>
+  <Page content={
+      <LogIn/>
+    }/>
 )
 
 const SignPage = () => (
-  <Page content="SIGN IN"/>
+  <Page content={
+    <SignUp/>
+  }/>
 )
 
 const PollPage = ({ match }) => (
